@@ -1,116 +1,164 @@
 "use client"
 
+import React from "react"
 import Image from "next/image"
-import { Globe2, MessageCircle, Play, Music2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { ArrowUp, Camera, Share2, Phone, Mail, MapPin } from "lucide-react"
 
 export default function Footer() {
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: "smooth" })
+    }
+
     return (
-        <footer className="w-full bg-white p-4 sm:p-6 lg:p-8">
-            <div className="w-full">
+        <footer className="w-full bg-[#081246] text-white font-sans px-6 py-12 sm:px-12 sm:py-16 select-none border-t border-blue-900/50">
+            <div className="mx-auto max-w-7xl">
 
-                {/* Grid Split Full Width */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+                {/* Main Grid Layout */}
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-start">
 
-                    {/* Kartu Kiri - Lime (#ccff00) */}
-                    <div className="relative overflow-hidden lg:col-span-5 bg-[#ccff00] text-black rounded-3xl p-8 sm:p-12 flex flex-col justify-between min-h-[480px]">
+                    {/* 1. Kolom Kiri: Brand & Info */}
+                    <div className="md:col-span-4 flex flex-col justify-between min-h-[260px]">
+                        <div>
+                            {/* Logo Image & Brand Name */}
+                            <a href="#hero" className="flex items-center gap-3 mb-4">
+                                <Image
+                                    src="/logo.webp"
+                                    alt="Sunrise Kintamani Logo"
+                                    width={140}
+                                    height={44}
+                                    priority
+                                    className="h-9 w-auto object-contain brightness-0 invert"
+                                />
+                                <span className="text-lg font-black uppercase tracking-wider text-white">
+                                    Sunrise Kintamani
+                                </span>
+                            </a>
 
-                        {/* Grain Texture Overlay */}
-                        <div
-                            className="absolute inset-0 opacity-20 pointer-events-none mix-blend-multiply"
-                            style={{
-                                backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
-                            }}
-                        />
-
-                        {/* Content Top */}
-                        <div className="relative z-10 flex items-center gap-3">
-                            <Image
-                                src="/logob+.webp"
-                                alt="Rafting Elo Magelang Logo"
-                                width={120}
-                                height={36}
-                                loading="lazy"
-                                className="h-9 w-auto object-contain brightness-0"
-                            />
-                            <span className="font-bold text-lg tracking-wider uppercase text-black">Rafting Elo</span>
+                            <p className="text-xs sm:text-sm text-blue-200/80 leading-relaxed max-w-sm mb-6 font-medium">
+                                Penyedia layanan Batur Jeep Tour 4x4 profesional di Kintamani, Bali. Nikmati pengalaman Golden Sunrise, Black Lava & Pura Segara tak terlupakan.
+                            </p>
                         </div>
 
-                        {/* Content Bottom */}
-                        <div className="relative z-10 mt-12">
-                            <h3 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold uppercase tracking-tight text-black leading-[1.1]">
-                                Membawa kamu lebih dekat dengan alam.
-                            </h3>
-
-                            <div className="mt-8 flex items-center gap-2 text-black/80">
-                                <a href="#" className="p-3 rounded-xl border border-black/15 bg-black/5 hover:bg-black hover:text-white transition-all">
-                                    <Globe2 className="size-4" />
+                        {/* Social Icons */}
+                        <div>
+                            <span className="text-xs text-blue-300/60 font-semibold uppercase tracking-wider block mb-3">Sosial Media</span>
+                            <div className="flex items-center gap-3">
+                                <a
+                                    href="https://instagram.com/sunrise_kintamani.id"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-all"
+                                    aria-label="Instagram"
+                                >
+                                    <Camera className="w-4 h-4 stroke-[2]" />
                                 </a>
-                                <a href="#" className="p-3 rounded-xl border border-black/15 bg-black/5 hover:bg-black hover:text-white transition-all">
-                                    <Music2 className="size-4" />
-                                </a>
-                                <a href="#" className="p-3 rounded-xl border border-black/15 bg-black/5 hover:bg-black hover:text-white transition-all">
-                                    <Play className="size-4" />
-                                </a>
-                                <a href="#" className="p-3 rounded-xl border border-black/15 bg-black/5 hover:bg-black hover:text-white transition-all">
-                                    <MessageCircle className="size-4" />
+                                <a
+                                    href="https://tiktok.com/@mybalijeep7"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-all"
+                                    aria-label="TikTok"
+                                >
+                                    <Share2 className="w-4 h-4 stroke-[2]" />
                                 </a>
                             </div>
-
-                            <p className="mt-8 text-xs font-mono text-black/60 font-semibold">
-                                © 2026 Rafting Elo. All rights reserved.
-                            </p>
                         </div>
                     </div>
 
-                    {/* Kartu Kanan - Sembunyi di Mobile (hidden), Muncul di Desktop (lg:flex) */}
-                    <div className="hidden lg:flex lg:col-span-7 bg-neutral-50/80 border border-neutral-200/80 rounded-3xl p-8 sm:p-12 flex-col justify-between gap-10">
+                    {/* 2. Kolom Tengah: Kontak & Lokasi */}
+                    <div className="md:col-span-4 flex flex-col justify-between min-h-[260px]">
+                        <div>
+                            <span className="text-xs text-blue-300/60 font-semibold uppercase tracking-wider block mb-4">
+                                Hubungi Kami
+                            </span>
 
-                        {/* Links Grid */}
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
-                            <div>
-                                <h4 className="text-xs font-bold uppercase tracking-widest text-neutral-900 mb-4">Sitemap</h4>
-                                <ul className="space-y-3 text-xs font-medium text-neutral-500">
-                                    <li><a href="#hero" className="hover:text-neutral-900 transition-colors">Home</a></li>
-                                    <li><a href="#fasilitas" className="hover:text-neutral-900 transition-colors">Fasilitas</a></li>
-                                    <li><a href="#booking" className="hover:text-neutral-900 transition-colors">Cara Booking</a></li>
-                                    <li><a href="#tentang" className="hover:text-neutral-900 transition-colors">Tentang Kami</a></li>
-                                    <li><a href="#" className="hover:text-neutral-900 transition-colors">Blog</a></li>
-                                </ul>
-                            </div>
+                            <div className="space-y-4 text-xs sm:text-sm">
+                                {/* Phone / WhatsApp */}
+                                <div className="flex items-center gap-3">
+                                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/10 text-blue-300">
+                                        <Phone className="w-4 h-4" />
+                                    </div>
+                                    <div>
+                                        <span className="text-[10px] text-blue-300/70 block uppercase font-bold">WhatsApp & Telepon</span>
+                                        <a
+                                            href="https://wa.me/6285159771469"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="font-bold text-white hover:text-blue-300 transition-colors"
+                                        >
+                                            +62 851-5977-1469
+                                        </a>
+                                    </div>
+                                </div>
 
-                            <div>
-                                <h4 className="text-xs font-bold uppercase tracking-widest text-neutral-900 mb-4">Jelajahi</h4>
-                                <ul className="space-y-3 text-xs font-medium text-neutral-500">
-                                    <li><a href="#paket" className="hover:text-neutral-900 transition-colors">Paket & Harga</a></li>
-                                    <li><a href="#jadwal" className="hover:text-neutral-900 transition-colors">Jadwal Trip</a></li>
-                                    <li><a href="#syarat" className="hover:text-neutral-900 transition-colors">Syarat & Ketentuan</a></li>
-                                    <li><a href="#faq" className="hover:text-neutral-900 transition-colors">FAQ</a></li>
-                                </ul>
-                            </div>
+                                {/* Instagram Username */}
+                                <div className="flex items-center gap-3">
+                                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/10 text-blue-300">
+                                        <Mail className="w-4 h-4" />
+                                    </div>
+                                    <div>
+                                        <span className="text-[10px] text-blue-300/70 block uppercase font-bold">Instagram</span>
+                                        <a
+                                            href="https://instagram.com/sunrise_kintamani.id"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="font-bold text-white hover:text-blue-300 transition-colors"
+                                        >
+                                            sunrise_kintamani.id
+                                        </a>
+                                    </div>
+                                </div>
 
-                            <div>
-                                <h4 className="text-xs font-bold uppercase tracking-widest text-neutral-900 mb-4">Temui Kami</h4>
-                                <p className="text-xs font-medium text-neutral-500 leading-relaxed mb-3">
-                                    Magelang, Jawa Tengah, Indonesia
-                                </p>
-                                <p className="text-xs font-mono font-bold text-neutral-900">
-                                    hello@raftingelo.id
-                                </p>
-                            </div>
-
-                            <div>
-                                <h4 className="text-xs font-bold uppercase tracking-widest text-neutral-900 mb-4">Sosial</h4>
-                                <ul className="space-y-3 text-xs font-medium text-neutral-500">
-                                    <li><a href="#" className="hover:text-neutral-900 transition-colors">Instagram</a></li>
-                                    <li><a href="#" className="hover:text-neutral-900 transition-colors">TikTok</a></li>
-                                    <li><a href="#" className="hover:text-neutral-900 transition-colors">YouTube</a></li>
-                                    <li><a href="https://wa.me/6285159771469" target="_blank" rel="noopener noreferrer" className="hover:text-neutral-900 transition-colors">WhatsApp</a></li>
-                                </ul>
+                                {/* Address */}
+                                <div className="flex items-center gap-3">
+                                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/10 text-blue-300">
+                                        <MapPin className="w-4 h-4" />
+                                    </div>
+                                    <div>
+                                        <span className="text-[10px] text-blue-300/70 block uppercase font-bold">Lokasi</span>
+                                        <p className="font-semibold text-white">
+                                            Kintamani, Bangli, Bali, Indonesia
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                    </div>
 
+                    {/* 3. Kolom Navigasi */}
+                    <div className="md:col-span-2">
+                        <span className="text-xs text-blue-300/60 font-semibold uppercase tracking-wider block mb-4">
+                            Navigasi
+                        </span>
+                        <nav className="flex flex-col gap-2.5 text-xs sm:text-sm font-medium text-blue-100/90">
+                            <a href="#hero" className="hover:text-white transition-colors">Home</a>
+                            <a href="#tentang" className="hover:text-white transition-colors">Tentang Kami</a>
+                            <a href="#paket" className="hover:text-white transition-colors">Paket Tour</a>
+                            <a href="#keunggulan" className="hover:text-white transition-colors">Keunggulan</a>
+                            <a href="#jadwal" className="hover:text-white transition-colors">Itinerary</a>
+                            <a href="#galeri" className="hover:text-white transition-colors">Galeri</a>
+                            <a href="#faq" className="hover:text-white transition-colors">FAQ</a>
+                        </nav>
+                    </div>
 
+                    {/* 4. Kolom Kanan: Back to Top & Copyright */}
+                    <div className="md:col-span-2 flex flex-col justify-between items-start md:items-end min-h-[260px]">
+                        <button
+                            onClick={scrollToTop}
+                            className="flex h-12 w-12 items-center justify-center rounded-full bg-white/10 border border-white/20 text-white hover:bg-white hover:text-[#081246] transition-all cursor-pointer shadow-lg"
+                            aria-label="Kembali ke Atas"
+                        >
+                            <ArrowUp className="w-5 h-5 stroke-[2]" />
+                        </button>
+
+                        <div className="mt-8 md:mt-0 text-left md:text-right">
+                            <p className="text-xs font-semibold text-white">
+                                © 2026 Sunrise Kintamani
+                            </p>
+                            <p className="text-[11px] text-blue-300/60 mt-0.5">
+                                All rights reserved.
+                            </p>
+                        </div>
                     </div>
 
                 </div>

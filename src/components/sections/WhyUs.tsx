@@ -1,162 +1,138 @@
-"use client"
+'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
-import { ShieldCheck, Award, Camera, Building2 } from 'lucide-react';
-
-const FEATURES = [
-    {
-        icon: ShieldCheck,
-        title: "Peralatan Standar SNI",
-        description: "Perahu karet PVC heavy-duty, helm pelindung, dan jaket pelampung kualitas SNI berdaya apung tinggi.",
-        badge: "100% Safety"
-    },
-    {
-        icon: Award,
-        title: "Guide Sertifikasi BNSP",
-        description: "Setiap perahu didampingi skipper profesional berlisensi BNSP yang menguasai teknik water rescue.",
-        badge: "Terverifikasi"
-    },
-    {
-        icon: Camera,
-        title: "Dokumentasi HD",
-        description: "Pesan paketnya, abadikan momen seru dengan Foto Video berkualitas kami",
-        badge: "Momen Terbaik"
-    },
-    {
-        icon: Building2,
-        title: "Basecamp Terluas & Nyaman",
-        description: "basecamp luas dan nyaman, parkir muat untuk bus dan juga mobil pribadi, tersedia area bilas, mushola yang berlokasi diarea resto.",
-        badge: "Fasilitas All-In"
-    }
-];
+import React from "react";
+import Image from "next/image";
+import {
+    Heart,
+    MessageCircle,
+    Share2,
+    Bookmark,
+    ArrowUpRight,
+    Award,
+    Camera,
+    Building2,
+    ShieldCheck
+} from "lucide-react";
 
 export default function WhyUs() {
-    const [activeIndex, setActiveIndex] = useState(0);
-    const [isInteracting, setIsInteracting] = useState(false);
-    const scrollRef = useRef<HTMLDivElement | null>(null);
-
-    // Navigasi presisi ke slide tertentu berdasarkan index
-    const scrollToCard = (index: number) => {
-        if (!scrollRef.current) return;
-        const container = scrollRef.current;
-        const cardWidth = container.clientWidth;
-
-        container.scrollTo({
-            left: cardWidth * index,
-            behavior: 'smooth'
-        });
-        setActiveIndex(index);
-    };
-
-    // Auto-Scroll Otomatis Khusus Tampilan HP / Mobile (3.5 Detik)
-    useEffect(() => {
-        if (isInteracting) return;
-
-        const interval = setInterval(() => {
-            const isMobile = window.innerWidth < 640;
-            if (!isMobile) return;
-
-            const nextIndex = (activeIndex + 1) % FEATURES.length;
-            scrollToCard(nextIndex);
-        }, 3500);
-
-        return () => clearInterval(interval);
-    }, [activeIndex, isInteracting]);
-
-    // Detect posisi manual scroll pada ponsel
-    const handleScroll = () => {
-        if (!scrollRef.current) return;
-        const container = scrollRef.current;
-        const scrollPosition = container.scrollLeft;
-        const width = container.clientWidth;
-
-        if (width > 0) {
-            const newIndex = Math.round(scrollPosition / width);
-            if (newIndex !== activeIndex && newIndex >= 0 && newIndex < FEATURES.length) {
-                setActiveIndex(newIndex);
-            }
-        }
-    };
-
     return (
-        <section id="keunggulan" className="w-full bg-white text-neutral-900 py-16 sm:py-24 select-none overflow-hidden">
-            <div className="mx-auto max-w-7xl px-5 lg:px-8">
+        <section id="keunggulan" className="w-full bg-[#F8FAFC] py-16 sm:py-24 font-sans text-[#0F172A] select-none">
+            <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
 
-                {/* Header */}
-                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-16">
-                    <div>
-                        <p className="text-xs font-black uppercase tracking-[0.25em] text-neutral-400">
-                            Alasan Memilih Kami
-                        </p>
-                        <h2 className="mt-2 text-3xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight text-neutral-900 leading-[1.1]">
-                            Jaminan Pengalaman<br />
-                            <span className="text-neutral-400">Terbaik & Teraman.</span>
-                        </h2>
-                    </div>
-                    <p className="max-w-md text-xs sm:text-sm font-medium text-neutral-500 leading-relaxed">
-                        Kami tidak sekadar menawarkan pengarungan sungai, tapi juga standar keselamatan internasional dan kenyamanan terbaik bagi setiap pengunjung.
-                    </p>
+                {/* Header Bagian Atas (Gaya TripFlow) */}
+                <div className="mb-12 md:mb-16 flex flex-col items-center text-center">
+                    <span
+                        className="text-lg md:text-2xl text-[#1D4ED8] mb-2 md:mb-3"
+                        style={{ fontFamily: "'Dancing Script', 'Caveat', 'Comic Sans MS', cursive" }}
+                    >
+                        Alasan Memilih Kami
+                    </span>
+
+                    <h2 className="max-w-3xl text-2xl font-bold tracking-tight text-[#08126A] sm:text-4xl lg:text-5xl leading-[1.2]">
+                        Jaminan Pengalaman Sunrise<br />
+                        Batur Tak Terlupakan
+                    </h2>
                 </div>
 
-                {/* Container Slider / Grid (Hanya Garis Vertikal) */}
-                <div
-                    ref={scrollRef}
-                    onScroll={handleScroll}
-                    onTouchStart={() => setIsInteracting(true)}
-                    onTouchEnd={() => setTimeout(() => setIsInteracting(false), 3000)}
-                    className="w-full flex sm:grid sm:grid-cols-2 lg:grid-cols-4 overflow-x-auto sm:overflow-x-visible snap-x snap-mandatory scrollbar-none border-l border-neutral-200"
-                >
-                    {FEATURES.map((item, idx) => {
-                        const Icon = item.icon;
-                        return (
-                            <div
-                                key={idx}
-                                onClick={() => scrollToCard(idx)}
-                                className="group w-full min-w-full sm:min-w-0 snap-start shrink-0 p-6 sm:p-8 flex flex-col justify-between gap-10 transition-colors duration-300 hover:bg-[#ccff00] active:bg-[#ccff00] cursor-pointer border-r border-neutral-200 rounded-none box-border"
+                {/* Grid Konten Utama (2 Kolom: Kiri Card Gambar & Kanan List Fitur) */}
+                <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-start">
+
+                    {/* Kolom Kiri: Card Gambar Besar dengan Social Icons & Fitur 1 */}
+                    <div className="lg:col-span-5 flex flex-col rounded-[2rem] bg-white p-4 sm:p-5 shadow-[0_10px_30px_rgba(0,0,0,0.04)] border border-slate-100">
+                        {/* Wrapper Gambar & Tombol Panah Kanan Atas */}
+                        <div className="relative h-[280px] sm:h-[320px] w-full rounded-2xl overflow-hidden bg-slate-100">
+                            <Image
+                                src="https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?auto=format&fit=crop&q=80&w=800" // Ganti dengan path foto Jeep/Sunrise Kintamani Anda
+                                alt="Jeep 4x4 Bertenaga Gunung Batur"
+                                fill
+                                className="object-cover"
+                                sizes="(max-width: 1024px) 100vw, 40vw"
+                            />
+                            {/* Tombol Circle Arrow Top Right */}
+                            <button
+                                aria-label="Lihat Detail Armada"
+                                className="absolute top-3.5 right-3.5 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-slate-900 shadow-sm backdrop-blur transition-transform hover:scale-105"
                             >
-                                {/* Top: Icon Polos & Badge */}
-                                <div>
-                                    <div className="flex items-center justify-between mb-8">
-                                        <Icon className="w-8 h-8 text-neutral-900 group-hover:text-black stroke-[2.2] transition-colors shrink-0" />
-                                        <span className="text-[10px] font-black uppercase tracking-widest bg-neutral-100 text-neutral-800 group-hover:bg-black group-hover:text-[#ccff00] px-2.5 py-1 rounded-none transition-colors">
-                                            {item.badge}
-                                        </span>
-                                    </div>
+                                <ArrowUpRight className="h-4 w-4 stroke-[2.5]" />
+                            </button>
+                        </div>
 
-                                    {/* Middle: Judul & Deskripsi */}
-                                    <h3 className="text-base sm:text-lg font-black uppercase tracking-tight text-neutral-900 group-hover:text-black mb-3 transition-colors">
-                                        {item.title}
-                                    </h3>
-                                    <p className="text-xs text-neutral-500 group-hover:text-black leading-relaxed font-medium transition-colors break-words">
-                                        {item.description}
-                                    </p>
-                                </div>
-
-                                {/* Bottom: Footer Nomor Urut */}
-                                <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-neutral-400 group-hover:text-black transition-colors">
-                                    <span>Standar Elo Rafting</span>
-                                    <span className="text-neutral-900 group-hover:text-black font-black transition-colors">
-                                        0{idx + 1}
-                                    </span>
-                                </div>
+                        {/* Baris Social Action Bar (Heart, Chat, Share, Bookmark) */}
+                        <div className="flex items-center justify-between px-2 pt-4 pb-2">
+                            <div className="flex items-center gap-3.5">
+                                <Heart className="h-5 w-5 fill-red-500 text-red-500 cursor-pointer" />
+                                <MessageCircle className="h-5 w-5 text-slate-700 cursor-pointer" />
+                                <Share2 className="h-5 w-5 text-slate-700 cursor-pointer" />
                             </div>
-                        );
-                    })}
-                </div>
+                            <Bookmark className="h-5 w-5 text-slate-900 fill-slate-900 cursor-pointer" />
+                        </div>
 
-                {/* Indikator Dots untuk HP */}
-                <div className="flex justify-center items-center gap-2 mt-8 sm:hidden">
-                    {FEATURES.map((_, idx) => (
-                        <button
-                            key={idx}
-                            onClick={() => scrollToCard(idx)}
-                            aria-label={`Go to slide ${idx + 1}`}
-                            className={`h-2 transition-all duration-300 rounded-none ${activeIndex === idx
-                                ? 'w-8 bg-[#ccff00] border border-black'
-                                : 'w-2 bg-neutral-300'
-                                }`}
-                        />
-                    ))}
+                        {/* Deskripsi Fitur Utama 1 (Jeep 4x4) */}
+                        <div className="px-2 pt-1 pb-2">
+                            <h3 className="text-lg font-bold text-[#0F172A]">
+                                Jeep 4x4 Bertenaga
+                            </h3>
+                            <p className="mt-1.5 text-xs sm:text-sm leading-relaxed text-slate-500">
+                                Armada Jeep 4x4 terawat dan siap menjelajahi medan vulkanik Gunung Batur dengan aman dan nyaman.
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Kolom Kanan: Deskripsi Atas, Fitur List, & Dark Highlight Box */}
+                    <div className="lg:col-span-7 flex flex-col justify-between h-full lg:pl-4">
+
+                        {/* Paragraf Deskripsi Atas */}
+                        <p className="text-xs sm:text-sm leading-relaxed text-slate-500 max-w-xl mb-8">
+                            Kami tidak sekadar menawarkan tur jeep biasa, tapi pengalaman menyaksikan golden sunrise Gunung Batur yang akan selalu diingat.
+                        </p>
+
+                        {/* Fitur Item 2: Driver Berpengalaman */}
+                        <div className="flex items-start gap-4 mb-7">
+                            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#0B1021] text-white shadow-sm">
+                                <Award className="h-5 w-5 stroke-[2]" />
+                            </div>
+                            <div>
+                                <h3 className="text-base sm:text-lg font-bold text-[#0F172A]">
+                                    Driver Berpengalaman
+                                </h3>
+                                <p className="mt-1 text-xs sm:text-sm leading-relaxed text-slate-500">
+                                    Driver kami paham betul jalur terbaik, titik foto ikonik, dan waktu golden hour yang tidak boleh terlewat.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Fitur Item 3: Bantu Foto di Setiap Spot */}
+                        <div className="flex items-start gap-4 mb-8">
+                            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#0B1021] text-white shadow-sm">
+                                <Camera className="h-5 w-5 stroke-[2]" />
+                            </div>
+                            <div>
+                                <h3 className="text-base sm:text-lg font-bold text-[#0F172A]">
+                                    Bantu Foto di Setiap Spot
+                                </h3>
+                                <p className="mt-1 text-xs sm:text-sm leading-relaxed text-slate-500">
+                                    Driver siap membantu mengabadikan momen terbaikmu di setiap destinasi — sunrise, black lava, hingga tepi danau.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Fitur Item 4 (Dark Highlight Box): FREE Drop-off Kintamani */}
+                        <div className="flex items-start gap-4 rounded-2xl bg-[#080D1A] p-5 sm:p-6 text-white shadow-lg">
+                            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-[#080D1A]">
+                                <Building2 className="h-5 w-5 stroke-[2.5]" />
+                            </div>
+                            <div>
+                                <h3 className="text-base sm:text-lg font-bold text-white">
+                                    FREE Drop-off Kintamani
+                                </h3>
+                                <p className="mt-1 text-xs sm:text-sm leading-relaxed text-slate-300">
+                                    Setiap paket sudah termasuk drop-off gratis di area Kintamani. Tidak perlu khawatir soal perjalanan pulang.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+
                 </div>
 
             </div>

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 const WA_NUMBER = "6285159771469";
 const WA_MESSAGE = encodeURIComponent(
-  "Halo Admin Elo Rafting \uD83D\uDC4B, saya ingin tanya info dan booking paket arung jeram. Mohon bantuannya ya!"
+  "Halo Admin Sunrise Kintamani 👋, saya ingin tanya info dan booking Batur Jeep Tour. Mohon bantuannya ya!"
 );
 const WA_URL = `https://wa.me/${WA_NUMBER}?text=${WA_MESSAGE}`;
 
@@ -36,7 +36,7 @@ export default function FloatingWhatsApp() {
       <div
         className={`relative max-w-[200px] rounded-2xl rounded-br-sm bg-white px-3.5 py-2.5 shadow-[0_4px_24px_rgba(0,0,0,0.15)] border border-neutral-100 text-[12px] leading-snug text-neutral-700 font-medium transition-all duration-300 ${showTooltip ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-2 pointer-events-none"}`}
       >
-        <span className="font-bold text-[#128c7e]">Elo Rafting</span>
+        <span className="font-bold text-[#128c7e]">Sunrise Kintamani</span>
         <br />
         Ada yang bisa kami bantu? 😊
         <span className="absolute -bottom-1.5 right-3 w-3 h-3 bg-white border-r border-b border-neutral-100 rotate-45" />
@@ -46,7 +46,7 @@ export default function FloatingWhatsApp() {
         href={WA_URL}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Chat WhatsApp Elo Rafting"
+        aria-label="Chat WhatsApp Sunrise Kintamani"
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
         className="group relative flex items-center justify-center w-14 h-14 rounded-full bg-[#25D366] shadow-[0_4px_20px_rgba(37,211,102,0.45)] hover:bg-[#1db954] hover:scale-110 active:scale-95 transition-all duration-200"

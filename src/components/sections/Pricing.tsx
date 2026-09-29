@@ -1,175 +1,228 @@
 'use client';
-import React, { useRef } from "react";
+
+import React, { useState, useRef } from "react";
 import Image from "next/image";
-import { ArrowRight, Check, ChevronLeft, ChevronRight, Plus, Star, Zap } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Check, Clock, MapPin, Star } from "lucide-react";
 
 const packages = [
     {
-        name: "Paket Elo Standard",
-        price: "Rp650.000",
-        note: "Maks 4 peserta/boat",
-        details: "±8–12 KM · 2,5–3 jam",
-        features: ["Perlengkapan rafting", "Pemandu min. 1 orang/boat", "Transport lokal", "Makan siang"],
-        icon: Plus,
+        name: "Paket Sunrise",
+        price: "Rp500.000",
+        note: "Per Pack · 2 Destinasi",
+        details: "±5 Jam · 04:00–09:00",
+        location: "Gunung Batur",
+        duration: "±5 Jam",
+        time: "04:00–09:00",
+        features: ["Jeep 4x4 + Driver", "Golden Sunrise Batur", "Black Lava Adventure", "Sesi Foto Jeep"],
+        image: "/1.webp",
         isPopular: false,
     },
     {
-        name: "Paket Elo + Foto",
-        price: "Rp750.000",
-        note: "Populer",
-        details: "±8–12 KM · 2,5–3 jam",
-        features: ["Semua fasilitas Standard", "Foto dokumentasi", "Maks 4 peserta/boat", "Snack & kelapa muda"],
-        icon: Star,
+        name: "Sunrise + Pura Segara",
+        price: "Rp600.000",
+        note: "Populer · 3 Destinasi",
+        details: "±5 Jam · 04:00–09:00",
+        location: "Pura Segara",
+        duration: "±5 Jam",
+        time: "04:00–09:00",
+        features: ["Semua fasilitas Paket Sunrise", "Kunjungan Pura Segara", "View Danau Batur", "FREE Drop-off Area Kintamani"],
+        image: "/2.webp",
         isPopular: true,
     },
     {
-        name: "Paket Progo Atas",
-        price: "Rp1.000.000",
-        note: "Minimal 2 boat",
-        details: "±8 KM · 1,5–2 jam",
-        features: ["Perlengkapan rafting standar", "Pemandu min. 1 orang/boat", "Transport lokal", "Makan siang"],
-        icon: Plus,
+        name: "Sunrise + Black Sand",
+        price: "Rp650.000",
+        note: "Lengkap · 4 Destinasi",
+        details: "±6 Jam · 04:00–10:00",
+        location: "Black Sand Batur",
+        duration: "±6 Jam",
+        time: "04:00–10:00",
+        features: ["Sunrise Gunung Batur", "Black Lava + Black Sand", "Pura Segara", "FREE Drop-off Kintamani"],
+        image: "/3.webp",
         isPopular: false,
     },
     {
-        name: "Paket Progo Bawah",
-        price: "Rp2.000.000",
-        note: "Minimal 2 boat · Trip pagi",
-        details: "±8 KM · 1,5–2 jam",
-        features: ["Perlengkapan rafting standar", "Pemandu min. 2 orang/boat", "Transport lokal", "Foto dokumentasi"],
-        icon: Zap,
+        name: "Paket Private Tour",
+        price: "Hubungi Kami",
+        note: "Custom · Fleksibel",
+        details: "Waktu & Rute Sesuka Kamu",
+        location: "Custom Route",
+        duration: "Fleksibel",
+        time: "Sesuai Request",
+        features: ["Jeep privat eksklusif", "Rute custom pilihan", "Foto profesional driver", "Jadwal fleksibel"],
+        image: "/4.webp",
         isPopular: false,
     },
 ];
 
 export default function Pricing() {
+    const [activeIndex, setActiveIndex] = useState(0);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-    const scroll = (direction: 'left' | 'right') => {
-        if (scrollContainerRef.current) {
-            const scrollAmount = direction === 'left' ? -300 : 300;
-            scrollContainerRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    // Fungsi update indeks dots aktif saat pengguna swipe di HP
+    const handleScroll = () => {
+        if (!scrollContainerRef.current) return;
+        const container = scrollContainerRef.current;
+        const scrollPosition = container.scrollLeft;
+        const cardWidth = container.firstElementChild ? (container.firstElementChild as HTMLElement).offsetWidth : container.clientWidth;
+
+        const newIndex = Math.round(scrollPosition / cardWidth);
+        if (newIndex !== activeIndex) {
+            setActiveIndex(newIndex);
+        }
+    };
+
+    // Fungsi klik dots untuk langsung beralih slide
+    const scrollToIndex = (index: number) => {
+        if (!scrollContainerRef.current) return;
+        const container = scrollContainerRef.current;
+        const card = container.children[index] as HTMLElement;
+        if (card) {
+            container.scrollTo({
+                left: card.offsetLeft - container.offsetLeft,
+                behavior: "smooth",
+            });
+            setActiveIndex(index);
         }
     };
 
     return (
-        <section id="paket" className="relative w-full overflow-hidden bg-black py-16 text-white select-none">
-            {/* Background Photo */}
-            <Image
-                src="/images/rafting-4.webp"
-                alt="Pengarungan Arung Jeram Sungai Elo Magelang"
-                fill
-                sizes="100vw"
-                loading="lazy"
-                className="object-cover opacity-80 pointer-events-none"
-            />
+        <section id="paket" className="w-full bg-white py-16 font-sans text-[#111827] select-none">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
-            {/* Dark Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-black/30 pointer-events-none" />
-
-            <div className="relative z-10 mx-auto max-w-[1440px] px-4 sm:px-8 lg:px-12">
                 {/* Header Section */}
-                <div className="mb-8 sm:mb-14 flex flex-col justify-between gap-4 md:flex-row md:items-end">
-                    <div>
-                        <h2 className="mt-2 text-3xl font-black uppercase tracking-tight text-white sm:text-4xl lg:text-5xl leading-tight">
-                            Paket rafting untuk<br />
-                            <span className="text-[#ccff00]">setiap cerita.</span>
+                <div className="mb-10 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+                    <div className="max-w-2xl">
+                        {/* Subtitle Cursive (Gaya TripFlow) */}
+                        <span
+                            className="text-lg md:text-2xl text-[#1D4ED8] mb-2 md:mb-3 block"
+                            style={{ fontFamily: "'Dancing Script', 'Caveat', 'Comic Sans MS', cursive" }}
+                        >
+                            Pilih Paket Anda
+                        </span>
+
+                        {/* Judul Utama Navy Blue */}
+                        <h2 className="text-3xl font-bold leading-[1.2] text-[#08126A] sm:text-4xl lg:text-[3rem]">
+                            Paket Jeep Tour<br />
+                            Untuk Setiap Petualangan.
                         </h2>
                     </div>
 
-                    {/* Controls Navigasi Scroll Khusus Mobile/Tablet */}
-                    <div className="flex items-center justify-between gap-4 md:justify-end">
-                        <p className="max-w-sm text-xs sm:text-sm leading-relaxed text-gray-300 hidden sm:block">
-                            Harga transparan per boat, sudah termasuk perlengkapan dan pemandu.
-                        </p>
-                        <div className="flex gap-2 lg:hidden">
-                            <button
-                                onClick={() => scroll('left')}
-                                aria-label="Scroll Kiri"
-                                className="flex h-10 w-10 items-center justify-center border border-white/20 bg-black/60 text-white active:bg-[#ccff00] active:text-black transition-colors"
-                            >
-                                <ChevronLeft className="h-5 w-5" />
-                            </button>
-                            <button
-                                onClick={() => scroll('right')}
-                                aria-label="Scroll Kanan"
-                                className="flex h-10 w-10 items-center justify-center border border-white/20 bg-black/60 text-white active:bg-[#ccff00] active:text-black transition-colors"
-                            >
-                                <ChevronRight className="h-5 w-5" />
-                            </button>
-                        </div>
-                    </div>
+                    {/* Subdeskripsi */}
+                    <p className="max-w-md text-xs sm:text-sm leading-relaxed text-[#6B7280] pb-1">
+                        Harga transparan per paket, sudah termasuk jeep 4x4 dan driver profesional.
+                    </p>
                 </div>
 
-                {/* HORIZONTAL SCROLL GRID (Mobile: Scrollable, Desktop: 4 Columns Grid) */}
+
+                {/* Wrapper Cards: Horizontal Scroll khusus Mobile/Tablet, Grid di Desktop (lg) */}
                 <div
                     ref={scrollContainerRef}
-                    className="flex lg:grid lg:grid-cols-4 gap-4 overflow-x-auto lg:overflow-x-visible snap-x snap-mandatory scrollbar-none pb-4"
+                    onScroll={handleScroll}
+                    className="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-4 no-scrollbar lg:grid lg:grid-cols-4 lg:gap-8 lg:overflow-visible lg:pb-0"
                 >
-                    {packages.map((item) => {
-                        const IconComponent = item.icon;
+                    {packages.map((item, index) => {
+                        const whatsappMessage = `Halo Admin Sunrise Kintamani, saya berminat booking *${item.name}* (${item.price} · ${item.details}). Mohon informasi ketersediaan slot tanggal.`;
+                        const whatsappUrl = `https://wa.me/6285159771469?text=${encodeURIComponent(whatsappMessage)}`;
+
                         return (
                             <article
-                                key={item.name}
-                                className={`group relative flex min-w-[280px] max-w-[320px] lg:max-w-none lg:min-w-0 flex-none snap-start flex-col justify-between border p-5 sm:p-6 backdrop-blur-md transition-all duration-300 ${item.isPopular
-                                    ? "border-[#ccff00] bg-white/15"
-                                    : "border-white/20 bg-white/10 hover:border-white/40 hover:bg-white/15"
-                                    }`}
+                                key={index}
+                                className="group flex min-w-[85vw] sm:min-w-[45vw] lg:min-w-0 flex-col justify-between rounded-[2rem] bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100/80 pb-6 transition-all duration-300 hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)] snap-center shrink-0 lg:shrink"
                             >
-                                {/* Top-Right Accent Square Badge (Tetap Tajam / No Rounded) */}
-                                <div className="absolute right-0 top-0 flex items-center">
-                                    {item.isPopular && (
-                                        <span className="mr-2 bg-[#ccff00] px-2 py-0.5 text-[9px] font-black uppercase text-black">
-                                            POPULER
-                                        </span>
-                                    )}
-                                    <div className="flex h-10 w-10 items-center justify-center bg-[#ccff00] text-black">
-                                        <IconComponent className="h-5 w-5 stroke-[2.5]" />
-                                    </div>
-                                </div>
-
                                 <div>
-                                    {/* Subtitle / Note */}
-                                    <p className="pr-16 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-gray-300">
-                                        {item.note}
-                                    </p>
-
-                                    {/* Package Name */}
-                                    <h3 className="mt-1 pr-12 text-lg sm:text-xl font-black uppercase tracking-tight text-white">
-                                        {item.name}
-                                    </h3>
-
-                                    {/* Price */}
-                                    <div className="mt-4 border-b border-white/10 pb-4">
-                                        <div className="text-3xl font-black tracking-tight text-white sm:text-4xl">
-                                            {item.price}
+                                    {/* Frame Gambar + Floating Pill */}
+                                    <div className="relative h-[240px] w-full rounded-t-[2rem] bg-gray-100 overflow-visible">
+                                        <div className="relative h-full w-full overflow-hidden rounded-t-[2rem]">
+                                            <Image
+                                                src={item.image}
+                                                alt={item.name}
+                                                fill
+                                                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                                            />
                                         </div>
-                                        <p className="mt-1 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-[#ccff00]">
-                                            / boat · {item.details}
-                                        </p>
+
+                                        {/* Tag Populer / Arrow Button */}
+                                        {item.isPopular ? (
+                                            <span className="absolute right-3 top-3 rounded-full bg-[#0B1221] px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-md">
+                                                Populer
+                                            </span>
+                                        ) : (
+                                            <a
+                                                href={whatsappUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                aria-label="Lihat Detail"
+                                                className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-[#08126A] text-white transition-transform hover:scale-110"
+                                            >
+                                                <ArrowUpRight className="h-4 w-4" />
+                                            </a>
+                                        )}
+
+                                        {/* Floating Info Pill (Lokasi & Durasi) */}
+                                        <div className="absolute bottom-0 left-4 right-4 translate-y-1/2 flex items-center justify-between rounded-xl bg-white px-3.5 py-2.5 shadow-[0_8px_20px_-3px_rgba(0,0,0,0.1)] border border-gray-100/90 z-10">
+                                            <div className="flex items-center gap-1.5 truncate mr-1">
+                                                <MapPin className="h-3.5 w-3.5 text-[#64748B] shrink-0" />
+                                                <span className="text-[10px] font-bold text-[#1F2937] truncate">{item.location}</span>
+                                            </div>
+                                            <div className="flex items-center gap-1.5 shrink-0">
+                                                <Clock className="h-3.5 w-3.5 text-[#64748B] shrink-0" />
+                                                <span className="text-[10px] font-bold text-[#1F2937]">{item.duration}</span>
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    {/* Features List */}
-                                    <ul className="mt-4 space-y-2.5">
-                                        {item.features.map((feature) => (
-                                            <li key={feature} className="flex items-start gap-2.5 text-xs text-gray-200">
-                                                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-[#ccff00]" />
-                                                <span className="leading-snug">{feature}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
+                                    {/* Konten Isi Card */}
+                                    <div className="flex flex-col px-5 pt-9">
+                                        {/* Note / Subtitle */}
+                                        <p className="text-[10px] font-bold uppercase tracking-wider text-[#64748B]">
+                                            {item.note}
+                                        </p>
+
+                                        {/* Nama Paket */}
+                                        <h3 className="mt-1 text-lg font-bold text-[#111827] line-clamp-1">
+                                            {item.name}
+                                        </h3>
+
+                                        {/* Fitur / Layanan Include */}
+                                        <ul className="mt-3 space-y-2">
+                                            {item.features.map((feature, idx) => (
+                                                <li key={idx} className="flex items-start gap-2 text-xs text-[#4B5563]">
+                                                    <Check className="h-3.5 w-3.5 text-[#10B981] shrink-0 mt-0.5" />
+                                                    <span className="leading-tight">{feature}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+
+                                        {/* Rating Bintang */}
+                                        <div className="mt-4 flex items-center gap-2">
+                                            <div className="flex gap-0.5">
+                                                {[...Array(5)].map((_, i) => (
+                                                    <Star key={i} className="h-3 w-3 fill-[#FBBF24] text-[#FBBF24]" />
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                {/* Bottom CTA Link (Tipe Box Kotak Tajam) */}
-                                <div className="mt-6 border-t border-white/10 pt-4">
+                                {/* Footer Card: Harga & Tombol WhatsApp */}
+                                <div className="mt-5 px-5 pt-4 border-t border-gray-100 flex items-center justify-between">
+                                    <div className="flex flex-col">
+                                        <span className="text-[10px] font-semibold text-[#9CA3AF] uppercase">Harga</span>
+                                        <span className="text-base sm:text-lg font-bold text-[#111827] leading-none">
+                                            {item.price}
+                                        </span>
+                                    </div>
+
                                     <a
-                                        href={`https://wa.me/6285159771469?text=${encodeURIComponent(`Halo Admin Elo Rafting, saya berminat untuk booking *${item.name}* (${item.price} ${item.details}). Mohon informasi ketersediaan slot tanggal.`)}`}
+                                        href={whatsappUrl}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex w-full items-center justify-between border border-white/20 bg-white/5 px-4 py-3 text-xs font-bold uppercase tracking-wider text-white transition-all group-hover:border-[#ccff00] group-hover:bg-[#ccff00] group-hover:text-black"
+                                        className="inline-flex items-center gap-1.5 rounded-full bg-[#08126A] px-4 py-2 text-[11px] font-bold text-white transition-all hover:bg-[#0c1d8a] active:scale-95 shadow-sm"
                                     >
-                                        <span>Booking Paket Ini</span>
-                                        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                                        <span>Booking</span>
+                                        <ArrowRight className="h-3.5 w-3.5" />
                                     </a>
                                 </div>
                             </article>
@@ -177,14 +230,21 @@ export default function Pricing() {
                     })}
                 </div>
 
-                {/* Bottom Banner */}
-                <div className="mt-4 flex flex-col justify-between gap-3 border border-white/20 bg-white/10 p-5 backdrop-blur-md sm:flex-row sm:items-center">
-                    <div>
-                        <p className="text-sm font-bold uppercase tracking-wider text-white">Video Dokumentasi</p>
-                        <p className="text-xs text-gray-300">Abadikan momen seru anda dengan video dokumentasi agar lebih bermakna</p>
-                    </div>
-                    <p className="text-base font-black text-[#ccff00]">mulai Rp300.000</p>
+                {/* Indikator Dots Navigation (Hanya Muncul di Tampilan Mobile/Tablet) */}
+                <div className="mt-6 flex justify-center items-center gap-2 lg:hidden">
+                    {packages.map((_, idx) => (
+                        <button
+                            key={idx}
+                            onClick={() => scrollToIndex(idx)}
+                            aria-label={`Go to slide ${idx + 1}`}
+                            className={`h-2.5 rounded-full transition-all duration-300 ${activeIndex === idx
+                                ? "w-7 bg-[#0B1221]"
+                                : "w-2.5 bg-gray-300 hover:bg-gray-400"
+                                }`}
+                        />
+                    ))}
                 </div>
+
             </div>
         </section>
     );
